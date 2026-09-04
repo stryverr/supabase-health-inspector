@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant - Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/reports" class="nav-link">Reports</a>
+      <a href="/rls-debugger" class="nav-link">RLS Debugger</a>
+      <a href="/assistant" class="nav-link active">AI Assistant</a>
+      <a href="/login" class="nav-link">Auth</a>
+    </div>
+    <div class="conn-pill">
+      <span class="conn-indicator"></span>
+      <span id="activeTargetLabel">Loading target...</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Diagnostic Assistant</h1>
+        <p class="page-subtitle">Interactive assistant backed by real asyncpg diagnostics. The model explains findings; it does not produce them, and it does not write SQL.</p>
+      </div>
+    </div>
+
+    <!-- LLM provider toggle -->
+    <div class="card" style="margin-bottom: 1rem; padding: 0.75rem 1rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <label class="form-label" for="providerSelect" style="margin: 0;">Reasoning model</label>
+        <!-- autocomplete=off: browsers restore <select> state across reloads and
+             fire `change`, which would silently switch the server's provider on a
+             page load. -->
+        <select id="providerSelect" class="form-input" autocomplete="off" style="width: auto; min-width: 190px;">
+          <option value="auto">Auto (Gemini, then Ollama)</option>
+          <option value="gemini">Gemini only</option>
+          <option value="ollama">Ollama only (local)</option>
+          <option value="none">None (deterministic)</option>
+        </select>
+        <span id="providerStatus" class="mono" style="font-size: 0.75rem; color: var(--text-secondary);">Checking providers...</span>
+      </div>
+      <div id="providerDetail" class="mono" style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem;"></div>
+    </div>
+
+    <!-- Quick Prompts -->
+    <div class="tab-btn-row">
+      <button class="btn btn-sm" onclick="document.getElementById('chatInput').value='Check transaction ID wraparound across all tables'; document.getElementById('chatForm').dispatchEvent(new Event('submit'));">
+        Inspect Wraparound
+      </button>
+      <button class="btn btn-sm" onclick="document.getElementById('chatInput').value='Inspect the RLS policies on the orders table and explain why a user might see zero rows'; document.getElementById('chatForm').dispatchEvent(new Event('submit'));">
+        Debug 'orders' RLS
+      </button>
+      <button class="btn btn-sm" onclick="document.getElementById('chatInput').value='Check connection health and search for idle-in-transaction connections'; document.getElementById('chatForm').dispatchEvent(new Event('submit'));">
+        Check Connection Leaks
+      </button>
+      <button class="btn btn-sm" onclick="document.getElementById('chatInput').value='Audit storage buckets and policies on storage.objects'; document.getElementById('chatForm').dispatchEvent(new Event('submit'));">
+        Audit Storage Buckets
+      </button>
+    </div>
+
+    <div class="chat-container">
+      <div id="chatMessages" class="chat-messages">
+        <div class="chat-bubble chat-assistant">
+          <p>Hello! I am your <strong>Supabase Health Inspector</strong> diagnostic assistant. I run real read-only queries against the target database: transaction wraparound horizons, RLS policy metadata and query plans, active connections, storage bucket policies, and <code>pg_stat_statements</code>.</p>
+          <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.8rem;">Every tool call below shows its arguments and full result, so you can check the answer against the data it came from. Findings marked INDETERMINATE are checks that could not run &mdash; not clean results.</p>
+        </div>
+      </div>
+
+      <form id="chatForm" class="chat-input-bar">
+        <input type="text" id="chatInput" class="form-input" placeholder="Ask a diagnostic question (e.g. 'Why is table orders returning 0 rows for my user?')">
+        <button type="submit" id="chatSubmitBtn" class="btn btn-supabase">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

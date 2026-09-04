@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RLS Debugger - Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/reports" class="nav-link">Reports</a>
+      <a href="/rls-debugger" class="nav-link active">RLS Debugger</a>
+      <a href="/assistant" class="nav-link">AI Assistant</a>
+      <a href="/login" class="nav-link">Auth</a>
+    </div>
+    <div class="conn-pill">
+      <span class="conn-indicator"></span>
+      <span id="activeTargetLabel">Loading target...</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Row Level Security Policy Debugger</h1>
+        <p class="page-subtitle">Inspect policy expressions, column type compatibility, and planner output for a table &mdash; from catalog metadata, without reading customer rows.</p>
+      </div>
+      <div>
+        <span class="inspection-banner" style="margin-bottom: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Read-only &bull; Metadata &amp; Query Plan
+        </span>
+      </div>
+    </div>
+
+    <!-- Quick table selectors, populated from the target's actual public schema.
+         Hardcoded names produced a 404 for every button on a database that did
+         not happen to have those tables. -->
+    <div class="tab-btn-row" id="tableButtonRow">
+      <span class="mono" style="font-size: 0.75rem; color: var(--text-secondary);">Loading tables from target...</span>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <form id="rlsTestForm">
+        <div class="form-group">
+          <label class="form-label" for="rlsTableName">Target Table Name (public.*)</label>
+          <input type="text" id="rlsTableName" class="form-input" value="orders" required placeholder="e.g. orders, profiles">
+        </div>
+
+        <button type="submit" id="rlsSubmitBtn" class="btn btn-supabase" style="width: 100%; justify-content: center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Inspect RLS Policies
+        </button>
+      </form>
+    </div>
+
+    <!-- Results Area -->
+    <div id="rlsResultContainer">
+      <div class="card" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+        <p>Enter a table in the public schema and click Inspect. The inspector reads policy metadata and the query plan; it does not read row contents unless an elevated connection is explicitly configured.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

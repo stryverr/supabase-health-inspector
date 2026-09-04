@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link active">Dashboard</a>
+      <a href="/reports" class="nav-link">Reports</a>
+      <a href="/rls-debugger" class="nav-link">RLS Debugger</a>
+      <a href="/assistant" class="nav-link">AI Assistant</a>
+      <a href="/login" class="nav-link">Auth</a>
+    </div>
+    <div class="conn-pill">
+      <span class="conn-indicator"></span>
+      <span id="activeTargetLabel">Loading target...</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Database Health &amp; Security Sweep</h1>
+        <p class="page-subtitle" id="sweepStatus">Polling target database for active diagnostic checks...</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/rls-debugger" class="btn">Deep RLS Debugger &rarr;</a>
+        <button id="runSweepBtn" class="btn btn-supabase">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Run Full Sweep
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnostic Cards Grid -->
+    <div id="moduleCardsContainer" class="cards-grid">
+      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+        <span class="spinner" style="width: 24px; height: 24px; margin-bottom: 0.5rem;"></span>
+        <div class="mono" style="color: var(--text-secondary);">Initializing diagnostic modules across target instance...</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan Report - Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/reports" class="nav-link active">Reports</a>
+      <a href="/rls-debugger" class="nav-link">RLS Debugger</a>
+      <a href="/assistant" class="nav-link">AI Assistant</a>
+      <a href="/login" class="nav-link">Auth</a>
+    </div>
+    <div class="conn-pill">
+      <span class="conn-indicator"></span>
+      <span id="activeTargetLabel">Loading target...</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Diagnostic Report</h1>
+        <p class="page-subtitle" id="reportSubtitle">Loading persisted scan...</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/reports" class="btn">&larr; All runs</a>
+        <a id="exportMdBtn" class="btn btn-supabase" href="#" download>Export Markdown</a>
+      </div>
+    </div>
+
+    <div class="inspection-banner" style="margin-bottom: 1rem;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Diagnosis only &bull; causes computed from the diagnostic data, not generated &bull; no remediation</span>
+    </div>
+
+    <div id="reportContainer">
+      <div class="card" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+        <span class="spinner" style="width: 20px; height: 20px;"></span>
+        <div class="mono" style="margin-top: 0.5rem;">Loading report...</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

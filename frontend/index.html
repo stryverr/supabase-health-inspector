@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link active">Dashboard</a>
+      <a href="/reports" class="nav-link">Reports</a>
+      <a href="/rls-debugger" class="nav-link">RLS Debugger</a>
+      <a href="/assistant" class="nav-link">AI Assistant</a>
+      <a href="/login" class="nav-link">Auth</a>
+    </div>
+    <div class="conn-pill">
+      <span class="conn-indicator"></span>
+      <span id="activeTargetLabel">Loading target...</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">PostgreSQL & Supabase Deep Diagnostics</h1>
+        <p class="page-subtitle">Inspect transaction wraparound, debug Row Level Security from catalog metadata, analyze connection pools, and query the diagnostic assistant.</p>
+      </div>
+      <div>
+        <a href="/dashboard" class="btn btn-supabase">Open Diagnostics Dashboard &rarr;</a>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          RLS Policy Debugger (The Centerpiece)
+        </div>
+        <p class="card-summary">Inspect policy expressions and column types from <code>pg_policies</code> and <code>information_schema</code>, capture the planner's EXPLAIN output, and detect text vs UUID type mismatch bugs (e.g. GitHub issue #49106) &mdash; <strong>without read access to customer rows</strong>.</p>
+        <a href="/rls-debugger" class="btn btn-sm">Launch RLS Tester &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Vacuum &amp; XID Wraparound
+        </div>
+        <p class="card-summary">Calculates table frozen transaction ID (relfrozenxid) ages against Postgres's 2-billion transaction hard limit, warning before catastrophic database stall.</p>
+        <a href="/dashboard" class="btn btn-sm">View Wraparound Telemetry &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          Connection Pool &amp; Lock Health
+        </div>
+        <p class="card-summary">Live telemetry from pg_stat_activity detecting idle-in-transaction connection leaks that block autovacuum from freeing disk space.</p>
+        <a href="/dashboard" class="btn btn-sm">Check Connections &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Function-Calling Diagnostic Assistant
+        </div>
+        <p class="card-summary">Interactive assistant that dispatches real asyncpg queries against your database, with every tool call, its arguments, and its full result shown so each answer can be checked. Backed by Gemini or a local Ollama model, switchable at runtime.</p>
+        <a href="/assistant" class="btn btn-sm">Chat with Inspector &rarr;</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

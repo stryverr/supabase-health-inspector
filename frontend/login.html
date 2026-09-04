@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Supabase Health Inspector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="brand-section">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.194 13.987a.396.396 0 0 0 .319.617H12v8.996a.396.396 0 0 0 .716.233l11.09-13.824a.396.396 0 0 0-.319-.617z"/>
+      </svg>
+      <div class="brand-title">
+        <span>Supabase Health Inspector</span>
+        <span class="badge-version">v3.0.0 (Python)</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/reports" class="nav-link">Reports</a>
+      <a href="/rls-debugger" class="nav-link">RLS Debugger</a>
+      <a href="/assistant" class="nav-link">AI Assistant</a>
+      <a href="/login" class="nav-link active">Auth</a>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 480px; margin-top: 4rem;">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Supabase Magic Link Authentication</h2>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">
+        Authenticates against the Supabase Auth REST API (<code>POST /auth/v1/magiclink</code>).
+        Returned tokens are verified with PyJWT against the project's published JWKS
+        (ES256), checking signature, expiry, and the <code>authenticated</code> audience.
+      </p>
+
+      <div id="authStateBox" style="margin: 0.75rem 0;"></div>
+
+      <div id="authStatusMsg" style="display: none;"></div>
+
+      <form id="magicLinkForm" style="margin-top: 0.5rem;">
+        <div class="form-group">
+          <label class="form-label" for="magicEmail">Account Email Address</label>
+          <input type="email" id="magicEmail" class="form-input" placeholder="admin@yourcompany.com" required value="engineer@company.com">
+        </div>
+
+        <button type="submit" id="magicSubmitBtn" class="btn btn-supabase" style="width: 100%; justify-content: center;">
+          Send Magic Link
+        </button>
+      </form>
+
+      <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.75rem; color: var(--text-muted);">
+        <strong class="mono" style="color: var(--text-secondary);">Note:</strong>
+        When <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> are configured, this
+        sends a <em>real</em> email to the address above. Submitting does not sign you in:
+        the session is established only after you open the link, which returns to
+        <code>/auth/callback</code> for JWT verification. Without those settings the backend
+        reports a simulated dispatch and sends nothing.
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
